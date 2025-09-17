@@ -5,11 +5,11 @@
   <form>
     <div class="mb-3 text-start">
       <label class="form-label" for="email">New Password</label>
-      <input type="password" class="form-control" id="password" placeholder="........" required>
+      <input type="password" class="form-control" id="password" placeholder="Enter New Password" required>
     </div>
     <div class="mb-3 text-start">
       <label class="form-label" for="password">Confirm Password</label>
-      <input type="password" class="form-control" id="password_confirmation" placeholder="........" required>
+      <input type="password" class="form-control" id="password_confirmation" placeholder="Confirmed New Password" required>
     </div>
     <button type="submit" class="btn btn-warning w-100">Update Password</button>
   </form>

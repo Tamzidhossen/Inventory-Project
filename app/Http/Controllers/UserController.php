@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+    public function Dashboard(){
+        return view('Layout.dashboard');
+    }
 
     public function Registation(){
         return view('components.registation');
@@ -26,7 +29,7 @@ class UserController extends Controller
         return view('components.verify-otp');
     }
     public function PasswordReset(){
-        return view('components.verify-otp');
+        return view('components.password-reset');
     }
     
     public function UserRegistation(Request $request) {

@@ -27,4 +27,18 @@
     <span class="text-muted small">Didn’t get the code?</span>
     <a href="#" class="text-decoration-none">Resend</a>
   </div>
+  <!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Auto-focus next field when typing
+  const inputs = document.querySelectorAll('.otp-inputs input');
+  inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      if (input.value && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    });
+  });
+</script>
 @endsection
