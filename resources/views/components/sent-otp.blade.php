@@ -8,18 +8,37 @@
     Enter your email address and we’ll send you instructions to reset your password.
   </p>
 
-  <form>
+  {{-- <form> --}}
     <div class="mb-3 text-start">
       <label for="email" class="form-label">Email address</label>
-      <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+      <input type="email" class="form-control" id="email" placeholder="name@example.com">
     </div>
-    <button type="submit" class="btn btn-warning w-100">
+    <button type="submit" onclick="SentOTP()" class="btn btn-warning w-100">
       Send Reset Link
     </button>
-  </form>
+  {{-- </form> --}}
 
   <div class="mt-3">
-    <a href="login.html" class="text-decoration-none">Back to Sign In</a>
+    <a href="{{ route('login') }}" class="text-decoration-none">Back to Sign In</a>
   </div>
-</div>
+  <script>
+    async function SentOTP() {
+      let email = document.getElementById('email').value;
+
+      if(email.length == 0){
+        toastr.error('Email is required');
+      } else {
+        let val = await axios.post('/send-otp-code', { email: email });
+        if(val.status ==  200 && val.data['status'] == 'success'){
+          toastr.success(val.data['message']);
+          sessionStorage.setItem('email', email);
+          setTimeout(() => {
+            window.location.href = "/verify-otp";
+          }, 2000);
+        }else{
+          toastr.error('User Email is not found');
+        }
+      }
+    }
+  </script>
 @endsection

@@ -71,9 +71,9 @@ class UserController extends Controller
         } else {
             // Invalid credentials
             return response()->json([
-                'status' => 'Error',
+                'status' => 'error',
                 'message' => 'User Login Faild',
-            ], 401);
+            ], 200);
             // return 0;
         }
     }
@@ -97,7 +97,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Email Not Found',
-            ], 404);
+            ], 200);
         }
     }
 
@@ -122,7 +122,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Invalid OTP Code',
-            ], 404);
+            ], 200);
         }
     }
 

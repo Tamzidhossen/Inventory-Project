@@ -17,7 +17,7 @@
         <input class="form-check-input" type="checkbox" id="remember">
         <label class="form-check-label" for="remember">Remember me</label>
       </div>
-      <a href="reset.html" class="small">Forgot password?</a>
+      <a href="{{ route('sent.otp') }}" class="small">Forgot password?</a>
     </div>
     <button onclick="SubmitLogin()" class="btn btn-warning w-100">Sign In</button>
     <div class="mt-3">
@@ -34,16 +34,15 @@
         toastr.error('Email is required');
       } else if(password.length == 0){
         toastr.error('Password is required');
-      } else{
-        let val = await axios.post('/user-login', {
-          email: email,
-          password: password
-        });
+      } else {
+        let val = await axios.post('/user-login', { email: email, password: password });
         if(val.status ==  200 && val.data['status'] == 'success'){
-          window.location.href = "/dashboard";
           toastr.success(val.data['message']);
-        } else{
-          toastr.error(val.data['message']);
+          setTimeout(() => {
+            window.location.href = "/dashboard";
+          }, 2000);
+        }else{
+          toastr.error('User Email or Password is incorrect');
         }
       }
     }

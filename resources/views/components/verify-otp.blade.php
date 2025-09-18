@@ -8,27 +8,26 @@
     We’ve sent a 6-digit verification code to your email address.
   </p>
 
-  <form>
+  {{-- <form> --}}
     <div class="otp-inputs d-flex justify-content-center mb-3">
       <input type="text" maxlength="1" class="form-control" required>
       <input type="text" maxlength="1" class="form-control" required>
       <input type="text" maxlength="1" class="form-control" required>
       <input type="text" maxlength="1" class="form-control" required>
-      <input type="text" maxlength="1" class="form-control" required>
-      <input type="text" maxlength="1" class="form-control" required>
+      {{-- <input type="text"  class="form-control" id="otp"> --}}
+      {{-- <input type="text" maxlength="1" class="form-control" required>
+      <input type="text" maxlength="1" class="form-control" required> --}}
     </div>
 
-    <button type="submit" class="btn btn-warning w-100">
+    <button type="submit" onclick="SubmitOTP()" class="btn btn-warning w-100">
       Verify OTP
     </button>
-  </form>
+  {{-- </form> --}}
 
   <div class="mt-3">
     <span class="text-muted small">Didn’t get the code?</span>
     <a href="#" class="text-decoration-none">Resend</a>
   </div>
-  <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
   // Auto-focus next field when typing
@@ -40,5 +39,30 @@
       }
     });
   });
+
+  async function SubmitOTP() {
+    let otp = '';
+    inputs.forEach(input => {
+      otp += input.value;
+    });
+
+    if(otp.length < 4){
+      toastr.error('Please enter the complete 6-digit OTP');
+    } else {
+      let val = await axios.post('/verify-otp-code', { 
+        otp: otp,
+        email: sessionStorage.getItem('email')
+       });
+      if(val.status ==  200 && val.data['status'] == 'success'){
+        toastr.success(val.data['message']);
+        sessionStorage.clear();
+        setTimeout(() => {
+          window.location.href = "/password-reset";
+        }, 2000);
+      }else{
+        toastr.error(val.data['message']);
+      }
+    }
+  }
 </script>
 @endsection
