@@ -45,7 +45,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'User Registation Successful',
-                'user' => $user
+                'user' => $user     //Optional
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -65,8 +65,8 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'User Login Successful',
-                'token' => $token
-            ], 200);
+                // 'token' => $token
+            ], 200)->cookie('token', $token, 60*24*30);
             // return 1;
         } else {
             // Invalid credentials
@@ -139,7 +139,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Password Reset Faild',
-            ], 500);
+            ], 200);
         }
     }
 }

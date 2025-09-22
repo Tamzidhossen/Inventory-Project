@@ -21,5 +21,5 @@ Route::post('/user-registation', [UserController::class, 'UserRegistation'])->na
 Route::post('/user-login', [UserController::class, 'UserLogin'])->name('user.login');
 Route::post('/send-otp-code', [UserController::class, 'SendOTPCode'])->name('send.otp.code');
 Route::post('/verify-otp-code', [UserController::class, 'VerifyOTP'])->name('verify.otp.code');
-Route::post('/reset-password', [UserController::class, 'ResetPassword'])->name('reset.password')
+Route::post('/reset-password', [UserController::class, 'ResetPassword'])
     ->middleware([TokenVerificationMiddleware::class]);

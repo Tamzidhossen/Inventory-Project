@@ -22,7 +22,7 @@ class TokenVerificationMiddleware
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Unauthorized User',
-            ], 401);
+            ], 200);
         } else {
             $request->headers->set('email', $result);
             return $next($request);
