@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+    function abc() {
+        return view('backend.addcategory');
+    }
     public function Dashboard(){
         return view('Layout.dashboard');
     }
@@ -130,7 +133,7 @@ class UserController extends Controller
         try{
             $email = $request->header('email');
             $password = $request->input('password');
-            User::where('email', $email)->update(['password' => $password]);
+            User::where('email', $email)->update(['password' => bcrypt($password)]);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Password Reset Successful',
