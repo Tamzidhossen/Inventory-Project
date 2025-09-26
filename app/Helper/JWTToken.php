@@ -25,7 +25,8 @@ class JWTToken {
             'iss' => 'laravel-token',   // Issuer of the token
             'iat' => time(),            // Time when JWT was issued.
             'exp' => time() + 60*2,    // Expiration time (2 min from now)
-            'userEmail' => $userEmail   // Subject of the token (user's email)
+            'userEmail' => $userEmail,   // Subject of the token (user's email)
+            'userID' => '0'         // User ID
         ];
 
         return JWT::encode($payload, $key, 'HS256');

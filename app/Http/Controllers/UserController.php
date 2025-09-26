@@ -61,11 +61,10 @@ class UserController extends Controller
     }
 
     public function UserLogin(Request $request) {
-        $user = User::where('email', $request->input('email'))
-                ->select('id')->first();
+        $user = User::where('email', $request->input('email'))->first();
         // return $user;
 
-        if ($user !=null && Hash::check($request->input('password'), $user->password)) {
+        if ($user && Hash::check($request->input('password'), $user->password)) {
             // Password & Email is correct
             $token = JWTToken::CreateToken($request->input('email'), $user->id);
             return response()->json([
@@ -79,7 +78,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'User Login Faild',
-            ], 200);
+            ], 404);
             // return 0;
         }
     }
@@ -145,7 +144,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Password Reset Faild',
-            ], 200);
+            ], 404);
         }
     }
 
