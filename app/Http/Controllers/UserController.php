@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
+use function Laravel\Prompts\select;
+
 class UserController extends Controller
 {
     function abc() {
@@ -59,12 +61,13 @@ class UserController extends Controller
     }
 
     public function UserLogin(Request $request) {
-        $user = User::where('email', $request->input('email'))->first();
+        $user = User::where('email', $request->input('email'))
+                ->select('id')->first();
         // return $user;
 
-        if ($user && Hash::check($request->input('password'), $user->password)) {
+        if ($user !=null && Hash::check($request->input('password'), $user->password)) {
             // Password & Email is correct
-            $token = JWTToken::CreateToken($request->input('email'));
+            $token = JWTToken::CreateToken($request->input('email'), $user->id);
             return response()->json([
                 'status' => 'success',
                 'message' => 'User Login Successful',
@@ -144,5 +147,14 @@ class UserController extends Controller
                 'message' => 'Password Reset Faild',
             ], 200);
         }
+    }
+
+    public function Logout(Request $request) {
+        // return response()->json([        //For API
+        //     'status' => 'success',
+        //     'message' => 'User Logout Successful',
+        // ], 200)->cookie('token', '', -1);
+
+        return redirect('/login')->cookie('token', '', -1);
     }
 }

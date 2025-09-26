@@ -6,13 +6,14 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 class JWTToken {
-    public static function CreateToken($userEmail):string {
+    public static function CreateToken($userEmail, $userID):string {
         $key = env('JWT_KEY');
         $payload = [
             'iss' => 'laravel-token',   // Issuer of the token
             'iat' => time(),            // Time when JWT was issued.
             'exp' => time() + 60*60,    // Expiration time (1 Hour from now)
-            'userEmail' => $userEmail   // Subject of the token (user's email)
+            'userEmail' => $userEmail,   // Subject of the token (user's email)
+            'userID' => $userID         // User ID
         ];
 
         return JWT::encode($payload, $key, 'HS256');
@@ -30,11 +31,15 @@ class JWTToken {
         return JWT::encode($payload, $key, 'HS256');
     }
 
-    public static function VerifyToken($token): string {
+    public static function VerifyToken($token): string|object {
         try {
-            $key = env('JWT_KEY');
-            $decode = JWT::decode($token, new Key($key, 'HS256'));
-            return $decode->userEmail;
+            if($token == null){
+                return 'unauthorized';
+            } else {
+                $key = env('JWT_KEY');
+                $decode = JWT::decode($token, new Key($key, 'HS256'));
+                return $decode;
+            }
 
         } catch (Exception $e) {
             return 'unauthorized';

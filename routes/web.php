@@ -11,9 +11,9 @@ Route::get('/', function () {
 //Fontend Routes
 Route::get('/registation-i', [UserController::class, 'Registation'])->name('registation');
 Route::get('/login', [UserController::class, 'Login'])->name('login');
-Route::get('/sent-otp', [UserController::class, 'SentOTP'])->name('sent.otp');
-Route::get('/verify-otp', [UserController::class, 'VerificationCode'])->name('verify.otp');
-Route::get('/password-reset', [UserController::class, 'PasswordReset'])->name('password.reset');
+Route::get('/sent-otp', [UserController::class, 'SentOTP'])->name('sent.otp')->middleware('vefityToken');
+Route::get('/verify-otp', [UserController::class, 'VerificationCode'])->name('verify.otp')->middleware('vefityToken');
+Route::get('/password-reset', [UserController::class, 'PasswordReset'])->name('password.reset')->middleware('vefityToken');
 Route::get('/dashboard', [UserController::class, 'Dashboard'])->name('dashboard')->middleware('vefityToken');
 
 //Backend Routes
@@ -24,4 +24,4 @@ Route::post('/verify-otp-code', [UserController::class, 'VerifyOTP'])->name('ver
 Route::post('/reset-password', [UserController::class, 'ResetPassword'])
     ->middleware([TokenVerificationMiddleware::class]);
 
-Route::get('abc', [UserController::class, 'abc']);
+Route::get('/logout', [UserController::class, 'Logout'])->name('user.logout');
