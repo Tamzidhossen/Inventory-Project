@@ -17,8 +17,11 @@ class UserController extends Controller
     function abc() {
         return view('backend.addcategory');
     }
-    public function Dashboard(){
-        return view('Layout.dashboard');
+    public function Dashboard(Request $request){
+        $id = $request->header('id');
+        $user = User::find($id);
+        // return $user;
+        return view('Layout.dashboard', compact('user'));
     }
 
     public function Registation(){
